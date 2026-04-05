@@ -1,0 +1,56 @@
+name: Build Unsigned IPA
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build archive (unsigned)
+        run: |
+          xcodebuild archive \
+            -project iOSSignTool.xcodeproj \
+            -scheme iOSSignTool \
+            -configuration Release \
+            -archivePath "$RUNNER_TEMP/iOSSignTool.xcarchive" \
+            -destination "generic/platform=iOS" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            PROVISIONING_PROFILE="" \
+            DEVELOPMENT_TEAM="" \
+            | tee build.log; exit ${PIPESTATUS[0]}
+
+      - name: Package into unsigned IPA
+        run: |
+          mkdir -p Payload
+          cp -r "$RUNNER_TEMP/iOSSignTool.xcarchive/Products/Applications/iOSSignTool.app" Payload/
+          zip -r iOSSignTool-unsigned.ipa Payload/
+          rm -rf Payload/
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOSSignTool-unsigned
+          path: iOSSignTool-unsigned.ipa
+          retention-days: 30
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+          retention-days: 7
