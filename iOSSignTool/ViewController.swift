@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     private var errorLabel: UILabel!
     private var retryButton: UIButton!
 
+    // بەستەری سەرەکی وێبسایتەکە
     private let targetURL = "https://signipa.vercel.app"
 
     // MARK: - Lifecycle
@@ -42,8 +43,56 @@ class ViewController: UIViewController {
         config.allowsInlineMediaPlayback = true
         config.mediaTypesRequiringUserActionForPlayback = []
 
-        // Persistent data store — supports cookies, localStorage, IndexedDB
+        // Persistent data store
         config.websiteDataStore = WKWebsiteDataStore.default()
+
+        // ---------------------------------------------------------
+        // کۆدی زیادکراو بۆ گۆڕینی ناو و دەقەکانی ناو وێبسایتەکە
+        // ---------------------------------------------------------
+        let jsString = """
+        function replaceTextInDOM(node) {
+            if (node.nodeType === 3) { // ئەگەر نۆدەکە دەق بێت
+                var text = node.nodeValue;
+                
+                // گۆڕینی وشەکان لێرەدا دەکرێت
+                text = text.replace(/iOS SignTool/gi, "AshteMobile");
+                text = text.replace(/IOS DEVELOPER TOOLS/gi, "ASHTEMOBILE TOOLS");
+                text = text.replace(/Sign IPAs, validate certificates, and rotate P12 passwords — a complete iOS certificate management workspace. No Mac needed./gi, "بەخێربێیت بۆ AshteMobile، لێرە دەتوانیت بەرنامەکان دابەزێنیت و واژۆیان بکەیت بەبێ پێویستی بە کۆمپیوتەر.");
+                
+                node.nodeValue = text;
+            } else if (node.nodeType === 1 && node.nodeName !== "SCRIPT" && node.nodeName !== "STYLE") {
+                for (let i = 0; i < node.childNodes.length; i++) {
+                    replaceTextInDOM(node.childNodes[i]);
+                }
+            }
+        }
+        
+        // کەمێک چاوەڕێ دەکات تا وێبسایتەکە لۆد دەبێت پاشان دەقەکان دەگۆڕێت
+        setTimeout(function() {
+            replaceTextInDOM(document.body);
+        }, 500);
+        setTimeout(function() {
+            replaceTextInDOM(document.body);
+        }, 1500);
+        
+        // چاودێری گۆڕانکارییەکان دەکات
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        replaceTextInDOM(node);
+                    }
+                });
+            });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+        """
+        
+        let userScript = WKUserScript(source: jsString, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        let userContentController = WKUserContentController()
+        userContentController.addUserScript(userScript)
+        config.userContentController = userContentController
+        // ---------------------------------------------------------
 
         // JavaScript enabled
         let prefs = WKWebpagePreferences()
