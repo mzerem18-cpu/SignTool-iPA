@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     private var errorLabel: UILabel!
     private var retryButton: UIButton!
 
-    // بەستەری سەرەکی وێبسایتەکە
     private let targetURL = "https://signipa.vercel.app"
 
     // MARK: - Lifecycle
@@ -39,53 +38,47 @@ class ViewController: UIViewController {
     private func setupWebView() {
         let config = WKWebViewConfiguration()
 
-        // Inline media & auto-play
         config.allowsInlineMediaPlayback = true
         config.mediaTypesRequiringUserActionForPlayback = []
-
-        // Persistent data store
         config.websiteDataStore = WKWebsiteDataStore.default()
 
         // ---------------------------------------------------------
-        // کۆدی زیادکراو بۆ گۆڕینی ناو و دەقەکانی ناو وێبسایتەکە
+        // کۆدی نوێکراوە بۆ گۆڕینی دەقەکان بە خێرایی (TreeWalker)
         // ---------------------------------------------------------
         let jsString = """
-        function replaceTextInDOM(node) {
-            if (node.nodeType === 3) { // ئەگەر نۆدەکە دەق بێت
+        function changeTextInPage() {
+            var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+            var node;
+            while(node = walker.nextNode()) {
                 var text = node.nodeValue;
+                var changed = false;
                 
-                // گۆڕینی وشەکان لێرەدا دەکرێت
-                text = text.replace(/iOS SignTool/gi, "AshteMobile");
-                text = text.replace(/IOS DEVELOPER TOOLS/gi, "ASHTEMOBILE TOOLS");
-                text = text.replace(/Sign IPAs, validate certificates, and rotate P12 passwords — a complete iOS certificate management workspace. No Mac needed./gi, "بەخێربێیت بۆ AshteMobile، لێرە دەتوانیت بەرنامەکان دابەزێنیت و واژۆیان بکەیت بەبێ پێویستی بە کۆمپیوتەر.");
+                // گۆڕینی ناوەکان بە جیا بۆ ئەوەی ڕەنگەکانیان تێک نەچێت
+                if(text.includes("iOS")) {
+                    text = text.replace(/iOS/g, "Ashte");
+                    changed = true;
+                }
+                if(text.includes("SignTool")) {
+                    text = text.replace(/SignTool/g, "Mobile");
+                    changed = true;
+                }
+                if(text.includes("IOS DEVELOPER TOOLS")) {
+                    text = text.replace(/IOS DEVELOPER TOOLS/gi, "ASHTEMOBILE TOOLS");
+                    changed = true;
+                }
+                if(text.includes("Sign IPAs")) {
+                    text = "بەخێربێیت بۆ AshteMobile، لێرە دەتوانیت بەرنامەکان دابەزێنیت و واژۆیان بکەیت بەبێ پێویستی بە کۆمپیوتەر.";
+                    changed = true;
+                }
                 
-                node.nodeValue = text;
-            } else if (node.nodeType === 1 && node.nodeName !== "SCRIPT" && node.nodeName !== "STYLE") {
-                for (let i = 0; i < node.childNodes.length; i++) {
-                    replaceTextInDOM(node.childNodes[i]);
+                if(changed) {
+                    node.nodeValue = text;
                 }
             }
         }
         
-        // کەمێک چاوەڕێ دەکات تا وێبسایتەکە لۆد دەبێت پاشان دەقەکان دەگۆڕێت
-        setTimeout(function() {
-            replaceTextInDOM(document.body);
-        }, 500);
-        setTimeout(function() {
-            replaceTextInDOM(document.body);
-        }, 1500);
-        
-        // چاودێری گۆڕانکارییەکان دەکات
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                mutation.addedNodes.forEach(function(node) {
-                    if (node.nodeType === 1 || node.nodeType === 3) {
-                        replaceTextInDOM(node);
-                    }
-                });
-            });
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+        // ئەمە وا دەکات هەر چەند سات جارێک کۆدەکە دووبارە ببێتەوە تا دڵنیا بینەوە کە دەقەکان دەگۆڕێن
+        setInterval(changeTextInPage, 300);
         """
         
         let userScript = WKUserScript(source: jsString, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
@@ -94,7 +87,6 @@ class ViewController: UIViewController {
         config.userContentController = userContentController
         // ---------------------------------------------------------
 
-        // JavaScript enabled
         let prefs = WKWebpagePreferences()
         prefs.allowsContentJavaScript = true
         config.defaultWebpagePreferences = prefs
@@ -263,7 +255,6 @@ extension ViewController: WKNavigationDelegate {
             return
         }
 
-        // Pass through special schemes used by the web app
         if let scheme = url.scheme {
             let internalSchemes = ["https", "http", "about", "blob", "data"]
             if !internalSchemes.contains(scheme) {
@@ -275,14 +266,12 @@ extension ViewController: WKNavigationDelegate {
             }
         }
 
-        // Open new-tab links (target="_blank") in Safari
         if navigationAction.targetFrame == nil {
             UIApplication.shared.open(url)
             decisionHandler(.cancel)
             return
         }
 
-        // Open external domains in Safari when user taps a link
         if let host = url.host,
            navigationAction.navigationType == .linkActivated,
            !host.contains("signipa.vercel.app"),
@@ -300,7 +289,6 @@ extension ViewController: WKNavigationDelegate {
 
 extension ViewController: WKUIDelegate {
 
-    // Camera / microphone permission (iOS 15+)
     @available(iOS 15.0, *)
     func webView(
         _ webView: WKWebView,
@@ -312,7 +300,6 @@ extension ViewController: WKUIDelegate {
         decisionHandler(.grant)
     }
 
-    // Handle window.open() — open in Safari
     func webView(
         _ webView: WKWebView,
         createWebViewWith configuration: WKWebViewConfiguration,
@@ -325,7 +312,6 @@ extension ViewController: WKUIDelegate {
         return nil
     }
 
-    // JavaScript alert
     func webView(
         _ webView: WKWebView,
         runJavaScriptAlertPanelWithMessage message: String,
@@ -337,7 +323,6 @@ extension ViewController: WKUIDelegate {
         present(alert, animated: true)
     }
 
-    // JavaScript confirm
     func webView(
         _ webView: WKWebView,
         runJavaScriptConfirmPanelWithMessage message: String,
@@ -350,7 +335,6 @@ extension ViewController: WKUIDelegate {
         present(alert, animated: true)
     }
 
-    // JavaScript prompt
     func webView(
         _ webView: WKWebView,
         runJavaScriptTextInputPanelWithPrompt prompt: String,
