@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A1B2C3D4E5F60030AABBCCDD /* iOSSignTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSignTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1B2C3D4E5F60030AABBCCDD /* AshteMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AshteMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B2C3D4E5F60031AABBCCDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60032AABBCCDD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60033AABBCCDD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,7 +38,7 @@
 		A1B2C3D4E5F60002AABBCCDD = {
 			isa = PBXGroup;
 			children = (
-				A1B2C3D4E5F60005AABBCCDD /* iOSSignTool */,
+				A1B2C3D4E5F60005AABBCCDD /* AshteMobile */,
 				A1B2C3D4E5F60003AABBCCDD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,12 +46,12 @@
 		A1B2C3D4E5F60003AABBCCDD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A1B2C3D4E5F60030AABBCCDD /* iOSSignTool.app */,
+				A1B2C3D4E5F60030AABBCCDD /* AshteMobile.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A1B2C3D4E5F60005AABBCCDD /* iOSSignTool */ = {
+		A1B2C3D4E5F60005AABBCCDD /* AshteMobile */ = {
 			isa = PBXGroup;
 			children = (
 				A1B2C3D4E5F60031AABBCCDD /* AppDelegate.swift */,
@@ -60,15 +60,15 @@
 				A1B2C3D4E5F60034AABBCCDD /* Assets.xcassets */,
 				A1B2C3D4E5F60036AABBCCDD /* Info.plist */,
 			);
-			path = iOSSignTool;
+			path = AshteMobile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A1B2C3D4E5F60010AABBCCDD /* iOSSignTool */ = {
+		A1B2C3D4E5F60010AABBCCDD /* AshteMobile */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A1B2C3D4E5F60012AABBCCDD /* Build configuration list for PBXNativeTarget "iOSSignTool" */;
+			buildConfigurationList = A1B2C3D4E5F60012AABBCCDD /* Build configuration list for PBXNativeTarget "AshteMobile" */;
 			buildPhases = (
 				A1B2C3D4E5F60020AABBCCDD /* Sources */,
 				A1B2C3D4E5F60022AABBCCDD /* Frameworks */,
@@ -78,9 +78,9 @@
 			);
 			dependencies = (
 			);
-			name = iOSSignTool;
-			productName = iOSSignTool;
-			productReference = A1B2C3D4E5F60030AABBCCDD /* iOSSignTool.app */;
+			name = AshteMobile;
+			productName = AshteMobile;
+			productReference = A1B2C3D4E5F60030AABBCCDD /* AshteMobile.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -98,7 +98,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A1B2C3D4E5F60011AABBCCDD /* Build configuration list for PBXProject "iOSSignTool" */;
+			buildConfigurationList = A1B2C3D4E5F60011AABBCCDD /* Build configuration list for PBXProject "AshteMobile" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -111,7 +111,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A1B2C3D4E5F60010AABBCCDD /* iOSSignTool */,
+				A1B2C3D4E5F60010AABBCCDD /* AshteMobile */,
 			);
 		};
 /* End PBXProject section */
@@ -264,14 +264,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = iOSSignTool/Info.plist;
+				INFOPLIST_FILE = AshteMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.astear17.signtool;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ashtemobile.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -288,14 +288,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = iOSSignTool/Info.plist;
+				INFOPLIST_FILE = AshteMobile/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.astear17.signtool;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ashtemobile.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -306,7 +306,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A1B2C3D4E5F60011AABBCCDD /* Build configuration list for PBXProject "iOSSignTool" */ = {
+		A1B2C3D4E5F60011AABBCCDD /* Build configuration list for PBXProject "AshteMobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A1B2C3D4E5F60013AABBCCDD /* Debug */,
@@ -315,7 +315,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A1B2C3D4E5F60012AABBCCDD /* Build configuration list for PBXNativeTarget "iOSSignTool" */ = {
+		A1B2C3D4E5F60012AABBCCDD /* Build configuration list for PBXNativeTarget "AshteMobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A1B2C3D4E5F60015AABBCCDD /* Debug */,
